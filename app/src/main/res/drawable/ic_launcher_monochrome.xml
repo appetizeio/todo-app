@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Content sits inside the 72dp adaptive-icon safe zone (18..90). -->
+<!-- Themed icon layer for Android 13+; the system tints it. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-
-    <!-- the task, ticked off -->
     <path
         android:pathData="M36,55 L49,68 L74,40"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="10"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />
-
-    <!-- a list rule under it, so the mark reads as a list and not only a tick -->
     <path
         android:pathData="M42,78 L72,78"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="6"
-        android:strokeAlpha="0.55"
         android:strokeLineCap="round" />
 </vector>
