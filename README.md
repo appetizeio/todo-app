@@ -56,6 +56,18 @@ Release builds are signed with the standard Android debug key on purpose: the
 APK is a public demo artifact and must be installable by anyone without a
 private signing key. Do not treat it as a distributable product build.
 
+## Releases
+
+Publishing a GitHub release builds the universal APK and attaches it to that
+release as `todo-app-<tag>.apk`, so the download URL is stable:
+
+```
+https://github.com/appetizeio/todo-app/releases/download/<tag>/todo-app-<tag>.apk
+```
+
+Every push to `main` and every pull request also builds the APK, so a broken
+build is caught before a release is cut.
+
 ## Layout
 
 ```
