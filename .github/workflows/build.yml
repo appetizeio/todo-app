@@ -18,7 +18,11 @@ jobs:
           java-version: '17'
 
       - name: Install SDK packages
-        run: yes | sdkmanager "platforms;android-35" "build-tools;35.0.0" > /dev/null
+        run: |
+          # sdkmanager is not on PATH on hosted runners
+          SDKMANAGER="${ANDROID_HOME:-$ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
+          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0" > /dev/null
 
       - name: Assemble
         run: ./gradlew assembleRelease --no-daemon
