@@ -30,14 +30,17 @@ jobs:
       - name: Build universal release APK
         run: ./gradlew assembleRelease --no-daemon
 
-      - name: Name it after the tag
+      # two copies of the same build: a versioned one for humans, and a
+      # stable filename so /releases/latest/download/todo-app.apk keeps working
+      - name: Name the artifacts
         run: |
-          mv app/build/outputs/apk/release/app-release.apk \
+          cp app/build/outputs/apk/release/app-release.apk \
              "todo-app-${GITHUB_REF_NAME}.apk"
+          cp app/build/outputs/apk/release/app-release.apk todo-app.apk
 
       - name: Upload to the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release upload "${GITHUB_REF_NAME}" \
-            "todo-app-${GITHUB_REF_NAME}.apk" --clobber
+            "todo-app-${GITHUB_REF_NAME}.apk" todo-app.apk --clobber
