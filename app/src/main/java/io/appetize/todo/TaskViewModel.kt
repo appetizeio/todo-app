@@ -10,6 +10,7 @@ import java.util.UUID
 enum class TaskFilter(val label: String) {
     All("All"),
     Active("Active"),
+    Overdue("Overdue"),
     Done("Done"),
 }
 
@@ -28,6 +29,7 @@ class TaskViewModel(private val store: TaskStore) : ViewModel() {
         val filtered = when (_filter.value) {
             TaskFilter.All -> _tasks.value
             TaskFilter.Active -> _tasks.value.filterNot { it.done }
+            TaskFilter.Overdue -> _tasks.value.filter { it.isOverdue(LocalDate.now()) }
             TaskFilter.Done -> _tasks.value.filter { it.done }
         }
         return filtered.sortedWith(
