@@ -6,7 +6,7 @@ device — including deep links.
 Jetpack Compose, Material 3, no backend. Tasks persist locally, so they survive
 an app restart within a session.
 
-Create tasks with a due date, filter by All / Active / Done, and watch overdue
+Create tasks with a due date, filter by All / Active / Overdue / Done, and watch overdue
 and due-today tasks colour themselves. Seeded with enough tasks that the list
 scrolls on first run.
 

@@ -1,6 +1,7 @@
 package io.appetize.todo
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -82,6 +84,11 @@ fun TaskListScreen(viewModel: TaskViewModel) {
                         modifier = Modifier.size(22.dp),
                     )
                     Text("Todo", fontWeight = FontWeight.SemiBold)
+                    Text(
+                        text = "v${BuildConfig.VERSION_NAME}",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             })
         },
@@ -97,8 +104,10 @@ fun TaskListScreen(viewModel: TaskViewModel) {
             ProgressHeader(done = done, total = tasks.size)
 
             Row(
+                // four chips no longer fit a narrow phone in one row
                 modifier = Modifier
                     .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp, vertical = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
@@ -191,6 +200,7 @@ private fun EmptyState(filter: TaskFilter) {
         Text(
             text = when (filter) {
                 TaskFilter.Done -> "Nothing completed yet."
+                TaskFilter.Overdue -> "Nothing overdue."
                 TaskFilter.Active -> "No tasks left. Enjoy it."
                 TaskFilter.All -> "No tasks yet — add your first one."
             },
