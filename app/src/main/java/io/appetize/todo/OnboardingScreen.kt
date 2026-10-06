@@ -2,7 +2,6 @@ package io.appetize.todo
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +26,7 @@ import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -102,7 +102,10 @@ fun OnboardingScreen(onFinished: () -> Unit) {
                     onClick = onFinished,
                     modifier = Modifier.testTag("onboarding-skip"),
                 ) {
-                    Text("Skip")
+                    Text(
+                        "Skip",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
         }
@@ -171,15 +174,22 @@ private fun OnboardingPageContent(page: OnboardingPage, index: Int) {
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp),
-        verticalArrangement = Arrangement.Center,
     ) {
-        when (index) {
-            0 -> WelcomeMark()
-            1 -> DueDatePreview()
-            else -> FilterPreview()
+        // a fixed slot keeps the title in the same place on every page
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(210.dp),
+            contentAlignment = Alignment.BottomStart,
+        ) {
+            when (index) {
+                0 -> WelcomeMark()
+                1 -> DueDatePreview()
+                else -> FilterPreview()
+            }
         }
 
-        Spacer(Modifier.height(28.dp))
+        Spacer(Modifier.height(24.dp))
 
         Text(
             text = page.kicker,
@@ -201,6 +211,7 @@ private fun OnboardingPageContent(page: OnboardingPage, index: Int) {
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+        Spacer(Modifier.weight(1f))
     }
 }
 
@@ -208,8 +219,8 @@ private fun OnboardingPageContent(page: OnboardingPage, index: Int) {
 private fun WelcomeMark() {
     Box(
         modifier = Modifier
-            .size(88.dp)
-            .clip(RoundedCornerShape(28.dp))
+            .size(104.dp)
+            .clip(RoundedCornerShape(32.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant),
         contentAlignment = Alignment.Center,
     ) {
@@ -217,7 +228,7 @@ private fun WelcomeMark() {
             painter = painterResource(R.drawable.ic_logo),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(40.dp),
+            modifier = Modifier.size(48.dp),
         )
     }
 }
@@ -237,12 +248,12 @@ private fun DueDatePreview() {
         ) {
             PreviewTask(
                 title = "Review the release notes",
-                meta = "Overdue · yesterday",
+                meta = "Overdue · Yesterday",
                 metaColor = MaterialTheme.colorScheme.error,
             )
             PreviewTask(
                 title = "Send the standup summary",
-                meta = "Due today",
+                meta = "Today",
                 metaColor = MaterialTheme.colorScheme.primary,
             )
         }
@@ -261,10 +272,10 @@ private fun PreviewTask(
             .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            modifier = Modifier
-                .size(22.dp)
-                .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape),
+        Checkbox(
+            checked = false,
+            onCheckedChange = null,
+            modifier = Modifier.size(24.dp),
         )
         Column(modifier = Modifier.padding(start = 12.dp)) {
             Text(
