@@ -10,6 +10,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,11 +43,14 @@ class MainActivity : ComponentActivity() {
         }
 
         pendingLink.value = DeepLink.from(intent?.data)
+        // a launch URL is a demo entry point, so it should not wait on first-run
+        val showOnboardingFirst = !store.isOnboardingComplete() && pendingLink.value == null
 
         setContent {
             TodoTheme {
                 val viewModel: TaskViewModel = viewModel(factory = factory)
                 val link by pendingLink.collectAsState()
+                var onboardingComplete by remember { mutableStateOf(!showOnboardingFirst) }
 
                 LaunchedEffect(link) {
                     link?.let {
@@ -53,7 +59,16 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                TaskListScreen(viewModel)
+                if (onboardingComplete) {
+                    TaskListScreen(viewModel)
+                } else {
+                    OnboardingScreen(
+                        onFinished = {
+                            store.completeOnboarding()
+                            onboardingComplete = true
+                        },
+                    )
+                }
             }
         }
     }

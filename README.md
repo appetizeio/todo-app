@@ -10,6 +10,11 @@ Create tasks with a due date, filter by All / Active / Overdue / Done, and watch
 and due-today tasks colour themselves. Seeded with enough tasks that the list
 scrolls on first run.
 
+The first launch opens a three-step onboarding: what the list is for, how overdue
+and due-today tasks are coloured, and how the filters work. Skip and Get started
+both mark it complete. It stays dismissed after that. A `todoapp://` launch URL
+skips it, so a deep-link demo still lands directly on the list.
+
 - **Package** `io.appetize.todo`
 - **Minimum** Android 10 (API 29) · **Target** Android 15 (API 35)
 - **Size** ~2 MB, single universal APK, no split set
