@@ -14,6 +14,12 @@ class TaskStore(context: Context) {
         return runCatching { parse(stored) }.getOrElse { seed() }
     }
 
+    fun isOnboardingComplete(): Boolean = prefs.getBoolean(ONBOARDING_KEY, false)
+
+    fun completeOnboarding() {
+        prefs.edit().putBoolean(ONBOARDING_KEY, true).apply()
+    }
+
     fun save(tasks: List<Task>) {
         val array = JSONArray()
         tasks.forEach { task ->
@@ -64,5 +70,6 @@ class TaskStore(context: Context) {
 
     private companion object {
         const val KEY = "tasks"
+        const val ONBOARDING_KEY = "onboarding_complete"
     }
 }
